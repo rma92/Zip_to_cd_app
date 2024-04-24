@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zip2CD</title>
+</head>
+<body>
+<h1>It works.</h1>
+    <h2>Enter Your Zip Code</h2>
+    <form id="zipForm" action="#" method="GET">
+        <label for="zipcode">Zip Code:</label>
+        <input type="text" id="zipcode" name="zipcode" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('zipForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            var zipcode = document.getElementById('zipcode').value.trim();
+            if (zipcode !== '') {
+                window.location.href = '/zip/' + zipcode; // Redirect to /zip/<zipcode>
+            }
+        });
+    </script>
+</body>
+</html>
