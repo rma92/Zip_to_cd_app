@@ -22,10 +22,28 @@ pragma temp_store = memory;
 ```
 (these aren't used yet):
 ```
-.loadshp C:\\gisdata\\www2.census.gov\\geo\\tiger\\TIGER_RD18\\LAYER\\PLACE\\tl_rd22_40_place place utf-8
+.loadshp C:\\gisdata\\www2.census.gov\\geo\\tiger\\TIGER_RD18\\LAYER\\PLACE\\tl_rd22_us_place place utf-8
 .loadshp C:\\gisdata\\www2.census.gov\\geo\\tiger\\TIGER_RD18\\LAYER\\COUNTY\\tl_rd22_us_county county utf-8
 ```
 Census FTP Info: https://www.census.gov/programs-surveys/acs/data/data-via-ftp.html
+### Import chunked files
+* Install 7-zip
+* Use 7-zip to extract all the zips in a directory into the current directory (so all the .shps, .dbfs, etc are in the same directory).
+* Open PowerShell in that directory, run this block of code to generate import.txt.
+```
+foreach( $file in (Get-ChildItem -Filter *.shp)){
+  $filename = $file.BaseName
+  $output = ".loadshp $filename $filename UTF-8"
+  $output | Out-File -FilePath 'import.txt'-Append
+}
+```
+* Run spatialite, optionally use the below pragmas to speed things up, then paste the contents of import.txt in.
+```
+pragma synchronous = off;
+pragma count_changes = false;
+pragma journal_mode = off;
+pragma temp_store = memory;
+```
 
 # Basic Algorithm
 ZCTA to congress algorithm
